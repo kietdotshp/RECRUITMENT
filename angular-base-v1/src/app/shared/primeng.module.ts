@@ -24,6 +24,9 @@ import {InputTextModule} from 'primeng/inputtext';
 import {RippleModule} from 'primeng/ripple';
 import {ToolbarModule} from 'primeng/toolbar';
 import {FileUploadModule} from 'primeng/fileupload';
+import { AvatarModule } from "primeng/avatar";
+import { AvatarGroupModule } from "primeng/avatargroup";
+import {CardModule} from 'primeng/card';
 
 
 const modules = [
@@ -49,7 +52,10 @@ const modules = [
     InputTextModule,
     RippleModule,
     ToolbarModule,
-    FileUploadModule
+    FileUploadModule,
+    AvatarModule,
+    AvatarGroupModule,
+    CardModule
 ]
 
 @NgModule({

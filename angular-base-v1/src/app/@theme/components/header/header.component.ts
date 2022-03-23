@@ -5,6 +5,7 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { SessionService } from '../../../@core/services/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -16,7 +17,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
+  picture='iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAG1BMVEVEeef///+4zPaKq/ChvPPn7' +
+  'vxymu3Q3flbieqI1HvuAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAQUlEQVQ4jWNgGAWjgP6ASdncAEaiAhaGiACmFhCJLsMaIiDAEQEi0WXYEiMC' +
+  'OCJAJIY9KuYGTC0gknpuHwXDGwAA5fsIZw0iYWYAAAAASUVORK5CYII=';
 
+  name=this.sessionService.getItem('auth-user')
+  
   themes = [
     {
       value: 'default',
@@ -38,20 +44,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [ { title: 'Profile' }, { title: 'Log out'   } ];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               private themeService: NbThemeService,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
-              private sessionService: SessionService) {
+              private sessionService: SessionService,
+              private router: Router,) {
+                
   }
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
     this.user = this.sessionService.getItem('auth-user');
+
+    this.menuService.onItemClick().subscribe((event)=>{
+      if(event.item.title==='Log out'){
+        this.sessionService.removeItem('auth-token')
+        this.sessionService.removeItem('auth-user')
+        this.router.navigate(['/auth/'])
+      }
+      if(event.item.title==='Profile'){
+        this.router.navigate(['/home/profile'])
+      }
+    })
     
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
@@ -89,4 +108,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.menuService.navigateHome();
     return false;
   }
+  
+
 }
