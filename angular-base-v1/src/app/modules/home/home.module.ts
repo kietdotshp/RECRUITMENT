@@ -4,6 +4,10 @@ import { HomeComponent } from './home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NbMenuModule } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
+import { ProfileComponent } from './profile/profile.component';
+import { SharedModule } from 'primeng/api';
+import { PrimengModule } from '../../shared/primeng.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [{
   path: '',
@@ -14,8 +18,8 @@ const routes: Routes = [{
       // loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
     },
     {
-      path: 'user',
-      // loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+      path: 'profile',
+      component: ProfileComponent
     },
 
   ],
@@ -24,12 +28,16 @@ const routes: Routes = [{
 @NgModule({
   declarations: [
     HomeComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     ThemeModule,
     NbMenuModule,
+    ReactiveFormsModule,
+    PrimengModule,
+    SharedModule
   ],
 })
 export class HomeModule { }
